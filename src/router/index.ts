@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
+import AdminUsersList from '../views/AdminUsersList.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/admin/users',
+    name: 'admin-users-list',
+    component: AdminUsersList
   },
   {
     path: '/about',
