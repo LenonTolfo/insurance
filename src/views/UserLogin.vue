@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <form action="">
+    <form v-on:submit.prevent>
       <div class="form-group">
         <label for="inputName">User Name</label>
         <input v-model="loginInfo.name" type="text" class="form-control" id="inputName" aria-describedby="emailHelp">
@@ -26,8 +26,11 @@ export default {
       }
   },
   methods: {
-    loginUser() {
-      this.$store.dispatch('loginUser', this.loginInfo)
+    async loginUser() {
+      let user = await this.$store.dispatch('loginUser', this.loginInfo)
+      if (user.error) {
+        alert(user.error)
+      }
     }
   }
 };

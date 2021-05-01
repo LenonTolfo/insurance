@@ -21,7 +21,6 @@ export default createStore({
   },
   actions: {
     async loadUsers({commit}) {
-      //todo this would be an API request, for now just the testing data
       commit('SET_USERS', customersData.customers)
 
       // load logged user from local storage
@@ -32,9 +31,21 @@ export default createStore({
       commit('LOGOUT_USER')
       window.localStorage.currentUser = JSON.stringify({})
     },
-    loginUser({commit}, user) {
-      commit('SET_CURRENT_USER', user)
-      window.localStorage.currentUser = JSON.stringify(user)
+    async loginUser({commit}, loginInfo) {
+      try {
+        // todo make a mock API request to validate user
+        const user = customersData.customers.find((customer) => {
+          if (customer.name === loginInfo.name && customer.password === loginInfo.password) return true
+        })
+
+        if (!user) throw 'no user'
+
+        commit('SET_CURRENT_USER', user)
+        window.localStorage.currentUser = JSON.stringify(user)
+        return user
+      } catch {
+        return {error: "Username/Password combination was incorrect. Please try again."}
+      }
     },
   },
   modules: {

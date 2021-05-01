@@ -30,6 +30,9 @@ export default {
   computed: {
     ...mapState(['currentUser']),
   },
+  mounted() {
+    this.$store.dispatch('loadUsers')
+  },
   methods: {
     logoutUser() {
       this.$store.dispatch('logoutUser')
