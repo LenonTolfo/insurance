@@ -17,7 +17,7 @@
       <button class="btn btn-primary" @click="logoutUser"> Logout </button>
     </div>
     <div class="col-4 d-flex" v-else>
-      <button class="btn btn-primary ml-auto"> Login </button>
+      <router-link class="btn btn-primary ml-auto" to="/login">Login</router-link>
     </div>
   </nav>
 </template>
@@ -29,9 +29,6 @@ export default {
   name: 'Navbar',
   computed: {
     ...mapState(['currentUser']),
-  },
-  mounted() {
-    this.$store.dispatch('loadUsers')
   },
   methods: {
     logoutUser() {

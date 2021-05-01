@@ -20,9 +20,10 @@ export default createStore({
     },
   },
   actions: {
-    async loadUsers({commit}) {
+    loadUsers({commit}) {
       commit('SET_USERS', customersData.customers)
-
+    },
+    loadCurrentUser({commit}) {
       // load logged user from local storage
       const user = JSON.parse(window.localStorage.currentUser)
       commit('SET_CURRENT_USER', user)

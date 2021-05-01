@@ -14,6 +14,9 @@ export default {
   computed: {
     ...mapState(['users'])
   },
+  mounted() {
+    this.$store.dispatch('loadUsers')
+  },
   methods: {
     loginUser(user) {
       this.$store.dispatch('loginUser', user)
