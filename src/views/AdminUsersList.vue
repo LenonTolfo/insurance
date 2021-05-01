@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="user in users" :key="user.name">
-      <div>{{ user.name }}</div>
+    <div v-for="user in users" :key="user.name" class="my-2">
+      {{ user.name }} <button class="btn btn-success" @click="loginUser(user)">Login</button>
     </div>
   </div>
 </template>
@@ -15,8 +15,13 @@ export default {
     ...mapState(['users'])
   },
   mounted() {
-    this.$store.dispatch("loadUsers")
-  }
+    this.$store.dispatch('loadUsers')
+  },
+  methods: {
+    loginUser(user) {
+      this.$store.dispatch('loginUser', user)
+    }
+  },
 };
 </script>
 

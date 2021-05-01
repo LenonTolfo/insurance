@@ -10,11 +10,14 @@
           </li>
         </ul>
     </div>
-    <div class="col-4 d-flex">
+    <div class="col-4 d-flex" v-if="currentUser.name">
       <span class="navbar-text ml-auto mr-2">
         {{ currentUser.name}}
       </span>
-      <button class="btn btn-primary"> Logout</button>
+      <button class="btn btn-primary" @click="logoutUser"> Logout </button>
+    </div>
+    <div class="col-4 d-flex" v-else>
+      <button class="btn btn-primary ml-auto"> Login </button>
     </div>
   </nav>
 </template>
@@ -27,6 +30,11 @@ export default {
   computed: {
     ...mapState(['currentUser']),
   },
+  methods: {
+    logoutUser() {
+      this.$store.dispatch('logoutUser')
+    }
+  }
 };
 </script>
 
