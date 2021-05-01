@@ -21,7 +21,7 @@ export default createStore({
   },
   actions: {
     async loadUsers({commit}) {
-      // this would be an API request, for now just the testing data
+      //todo this would be an API request, for now just the testing data
       commit('SET_USERS', customersData.customers)
 
       // load logged user from local storage
@@ -35,7 +35,7 @@ export default createStore({
     loginUser({commit}, user) {
       commit('SET_CURRENT_USER', user)
       window.localStorage.currentUser = JSON.stringify(user)
-    }
+    },
   },
   modules: {
   }
