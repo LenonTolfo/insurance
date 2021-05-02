@@ -8,7 +8,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter(to, from, next) {
+      const currentUser = JSON.parse(window.localStorage.currentUser)
+      if (currentUser && currentUser.name) {
+        next()
+      } else {
+        next({name: 'user-login'})
+      }
+    },
   },
   {
     path: '/login',
