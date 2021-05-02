@@ -10,7 +10,7 @@ export default createStore({
     users: [], // users loaded from the mockup data file
     currentUser: {},
     userInsurances: [],
-    membershipInsurances: []
+    membershipInsurances: [],
   },
   mutations: {
     SET_USERS(state, users) {
@@ -18,6 +18,8 @@ export default createStore({
     },
     LOGOUT_USER(state) {
       state.currentUser = {}
+      state.userInsurances = []
+      state.membershipInsurances = []
     },
     SET_CURRENT_USER(state, user) {
       state.currentUser = user
@@ -71,20 +73,26 @@ export default createStore({
         return insurance
       })
       commit('SET_USER_INSURANCES', insurances)
-      dispatch('loadUserMembershipInsurances', user)
+      dispatch('loadUserMembershipInsurances', [user, insurances ])
     },
-    loadUserMembershipInsurances({commit}, user){
+    loadUserMembershipInsurances({commit}, [user, ownedInsurances] ){
       /* eslint-disable */
       const membershipInsurances: any[] = []
       Object.keys(products).forEach((key) => {
         // @ts-ignore
-        const product = products[key]
+        let product = products[key]
 
         if (product.type === 'insurance'
             // @ts-ignore
             && membership[0][user.membership_type].level >= membership[0][product.availability].level) {
-          product.name = key
-          membershipInsurances.push(product)
+          let available = product.prices.find((item: { maxAge: number; minAge: number }) => {
+            return (item.maxAge >= user.age && item.minAge <= user.age)
+          })
+
+          if (available){
+            product.name = key
+            membershipInsurances.push(product)
+          }
         }
 
       })
