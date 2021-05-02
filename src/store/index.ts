@@ -3,12 +3,14 @@ import { createStore } from 'vuex'
 // importing the mockup data files
 import customersData from '../assets/data/customers.json'
 import products from '../assets/data/products.json'
+import {membership} from '../assets/data/memberships.json'
 
 export default createStore({
   state: {
     users: [], // users loaded from the mockup data file
     currentUser: {},
-    userInsurances: {}
+    userInsurances: [],
+    membershipInsurances: []
   },
   mutations: {
     SET_USERS(state, users) {
@@ -23,6 +25,9 @@ export default createStore({
     SET_USER_INSURANCES(state, insurances){
       state.userInsurances = insurances
     },
+    SET_MEMBERSHIP_INSURANCES(state, insurances){
+      state.membershipInsurances = insurances
+    },
   },
   actions: {
     loadUsers({commit}) {
@@ -32,7 +37,9 @@ export default createStore({
       // load logged user from local storage
       const user = JSON.parse(window.localStorage.currentUser)
       commit('SET_CURRENT_USER', user)
-      dispatch('loadUserInsurances', user)
+      if (user.name) {
+        dispatch('loadUserInsurances', user)
+      }
     },
     logoutUser({commit}) {
       commit('LOGOUT_USER')
@@ -56,7 +63,7 @@ export default createStore({
         return {error: "Username/Password combination was incorrect. Please try again."}
       }
     },
-    loadUserInsurances({commit}, user){
+    loadUserInsurances({commit, dispatch}, user){
       // eslint-disable-next-line
       const insurances = user.selected_insurances.map((name: string ) => { // @ts-ignore
         const insurance = products[name]
@@ -64,6 +71,25 @@ export default createStore({
         return insurance
       })
       commit('SET_USER_INSURANCES', insurances)
+      dispatch('loadUserMembershipInsurances', user)
+    },
+    loadUserMembershipInsurances({commit}, user){
+      /* eslint-disable */
+      const membershipInsurances: any[] = []
+      Object.keys(products).forEach((key) => {
+        // @ts-ignore
+        const product = products[key]
+
+        if (product.type === 'insurance'
+            // @ts-ignore
+            && membership[0][user.membership_type].level >= membership[0][product.availability].level) {
+          product.name = key
+          membershipInsurances.push(product)
+        }
+
+      })
+
+      commit('SET_MEMBERSHIP_INSURANCES', membershipInsurances)
     },
 },
   modules: {
