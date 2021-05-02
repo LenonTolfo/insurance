@@ -44,6 +44,8 @@ export default {
       let user = await this.$store.dispatch('loginUser', this.loginInfo)
       if (user.error) {
         alert(user.error)
+      } else {
+        this.$router.push({name: 'home'})
       }
     }
   }

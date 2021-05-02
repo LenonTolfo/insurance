@@ -7,7 +7,7 @@ import NotFound from '../views/NotFound.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
     beforeEnter(to, from, next) {
       const currentUser = JSON.parse(window.localStorage.currentUser)

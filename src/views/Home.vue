@@ -13,15 +13,20 @@
         <span id="userMembership" class="text-capitalize h5"> {{ currentUser.membership_type }} </span>
       </div>
     </div>
+    <div class="row">
+      <user-current-insurances />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {mapState} from 'vuex'; // @ is an alias to /src
+import {mapState} from 'vuex';
+import UserCurrentInsurances from '@/components/UserCurrentInsurances.vue'; // @ is an alias to /src
 
 export default defineComponent({
   name: 'Home',
+  components: {UserCurrentInsurances},
   computed: {
     ...mapState(['currentUser'])
   },
